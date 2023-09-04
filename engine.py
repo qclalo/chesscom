@@ -1,41 +1,20 @@
 import cv2
 import chess
 import chess.engine
-from board_to_fen.predict import get_fen_from_image
+from board_to_fen.predict import get_fen_from_image_path
 
 def detect_chessboard(image_path):
     # Implement chessboard detection using OpenCV or other computer vision techniques
     # Extract the chessboard state (positions of pieces) from the image
     # Return the chessboard state as a FEN string
-    return get_fen_from_image(image_path)
+    return get_fen_from_image_path(image_path)
 
 def find_best_moves(chessboard_fen):
     # Create a chess.Board object from the FEN string
-    board = chess.Board(chessboard_fen)
-
-    # Use a chess engine like Stockfish to evaluate and rank legal moves
-    engine = chess.engine.SimpleEngine.popen_uci("stockfish\stockfish-windows-x86-64-avx2.exe")
-
-    # Generate and evaluate legal moves
-    legal_moves = list(board.legal_moves)
-    move_scores = []
-
-    for move in legal_moves:
-        # Use the chess engine to evaluate the move
-        with engine.analysis(board, multipv=3) as analysis:
-            info = analysis.info
-            best_moves = [info["pv"][0].uci(), info["pv"][1].uci(), info["pv"][2].uci()]
-            score = info["score"].relative.score()
-
-            move_scores.append((move.uci(), score, best_moves))
-
-    # Sort moves by their evaluation scores (higher is better)
-    move_scores.sort(key=lambda x: x[1], reverse=True)
-
-    # Select the top three moves
-    top_three_moves = move_scores[:3]
-
-    return top_three_moves
+    with chess.engine.SimpleEngine.popen_uci("stockfish\stockfish-windows-x86-64-avx2.exe") as engine:
+        board = chess.Board(chessboard_fen)
+        result = engine.play(board, chess.engine.Limit(depth=depth))
+        return result.move.uci()
 
 if __name__ == "__main__":
     image_path = "captured_screenshot.png"
@@ -44,8 +23,6 @@ if __name__ == "__main__":
     
     if chessboard_fen:
         best_moves = find_best_moves(chessboard_fen)
-        for i, (move, score, best_lines) in enumerate(best_moves, start=1):
-            print(f"Move {i}: {move}, Score: {score}")
-            print(f"Best Lines: {', '.join(best_lines)}")
+        print("Best move:", best_moves)
     else:
         print("Chessboard not detected in the image.")
