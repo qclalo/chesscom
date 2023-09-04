@@ -9,7 +9,15 @@ def detect_chessboard(image_path):
     # Implement chessboard detection using OpenCV or other computer vision techniques
     # Extract the chessboard state (positions of pieces) from the image
     # Return the chessboard state as a FEN string
-    return get_fen_from_image_path(image_path, black_view = True)
+    a = get_fen_from_image_path(image_path)
+    return add_white_to_move_and_castling_rights(a)
+
+def add_white_to_move_and_castling_rights(original_fen):
+    # By default, assume it's White's turn to move
+    # and that castling rights are available for both sides.
+    modified_fen = original_fen + " w KQkq - 0 1"
+    return modified_fen
+
 
 def find_best_moves(fen_position, num_moves=3, depth=20):
     with chess.engine.SimpleEngine.popen_uci("stockfish\stockfish-windows-x86-64-avx2.exe") as engine:
@@ -40,9 +48,4 @@ if __name__ == "__main__":
     # call screengrab.py
     chessboard_fen = detect_chessboard(image_path)
     
-    if chessboard_fen:
-        best_moves = find_best_moves(chessboard_fen)
-        print("Best move:", best_moves)
-        display_image(image_path)
-    else:
-        print("Chessboard not detected in the image.")
+    print(chessboard_fen)
