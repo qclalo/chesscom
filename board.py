@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import pyautogui
+from board_to_fen.predict import get_fen_from_image
 
 # Capture a screenshot of the screen
 screenshot = pyautogui.screenshot()

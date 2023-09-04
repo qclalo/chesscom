@@ -1,11 +1,13 @@
 import cv2
 import chess
 import chess.engine
+from board_to_fen.predict import get_fen_from_image
 
 def detect_chessboard(image_path):
     # Implement chessboard detection using OpenCV or other computer vision techniques
     # Extract the chessboard state (positions of pieces) from the image
     # Return the chessboard state as a FEN string
+    return get_fen_from_image(image_path)
 
 def find_best_moves(chessboard_fen):
     # Create a chess.Board object from the FEN string
