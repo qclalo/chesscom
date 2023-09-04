@@ -9,12 +9,18 @@ def detect_chessboard(image_path):
     # Return the chessboard state as a FEN string
     return get_fen_from_image_path(image_path)
 
-def find_best_moves(chessboard_fen):
-    # Create a chess.Board object from the FEN string
+def find_best_moves(fen_position, num_moves=3, depth=20):
     with chess.engine.SimpleEngine.popen_uci("stockfish\stockfish-windows-x86-64-avx2.exe") as engine:
-        board = chess.Board(chessboard_fen)
-        result = engine.play(board, chess.engine.Limit(depth=10))
-        return result.move.uci()
+        board = chess.Board(fen_position)
+        info = engine.analyse(board, chess.engine.Limit(depth=10), multipv=num_moves)
+        
+        top_moves = []
+        for i, entry in enumerate(info):
+            move = entry.get("pv")[0]  # Get the best move in the principal variation
+            score = entry.get("score").relative.score()
+            top_moves.append({"move": move.uci(), "score": score})
+            
+        return top_moves
 
 if __name__ == "__main__":
     image_path = "captured_screenshot.png"
