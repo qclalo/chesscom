@@ -25,3 +25,4 @@ if __name__ == "__main__":
     x4, y4 = 1070, 925
     
     capture_screenshot(x1, y1, x2, y2, x3, y3, x4, y4)
+    
