@@ -9,7 +9,7 @@ def detect_chessboard(image_path):
     # Implement chessboard detection using OpenCV or other computer vision techniques
     # Extract the chessboard state (positions of pieces) from the image
     # Return the chessboard state as a FEN string
-    return get_fen_from_image_path(image_path)
+    return get_fen_from_image_path(image_path, black_view = True)
 
 def find_best_moves(fen_position, num_moves=3, depth=20):
     with chess.engine.SimpleEngine.popen_uci("stockfish\stockfish-windows-x86-64-avx2.exe") as engine:
