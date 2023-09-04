@@ -9,7 +9,7 @@ square_size = chessboard_image.shape[0] // 8  # Assuming an 8x8 chessboard
 arrow_color = (0, 0, 255)  # Red color
 
 # Parse the move string (e.g., "g1g3")
-from_square, to_square = "g1g3"
+from_square, to_square = "g1", "g3"
 
 # Calculate the pixel coordinates for the 'from' and 'to' squares
 from_col, from_row = ord(from_square[0]) - ord('a'), int(from_square[1]) - 1
