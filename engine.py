@@ -12,7 +12,7 @@ def find_best_moves(chessboard_fen):
     board = chess.Board(chessboard_fen)
 
     # Use a chess engine like Stockfish to evaluate and rank legal moves
-    engine = chess.engine.SimpleEngine.popen_uci("path_to_stockfish_executable")
+    engine = chess.engine.SimpleEngine.popen_uci("stockfish\stockfish-windows-x86-64-avx2.exe")
 
     # Generate and evaluate legal moves
     legal_moves = list(board.legal_moves)
