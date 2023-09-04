@@ -13,7 +13,7 @@ def find_best_moves(chessboard_fen):
     # Create a chess.Board object from the FEN string
     with chess.engine.SimpleEngine.popen_uci("stockfish\stockfish-windows-x86-64-avx2.exe") as engine:
         board = chess.Board(chessboard_fen)
-        result = engine.play(board, chess.engine.Limit(depth=depth))
+        result = engine.play(board, chess.engine.Limit(depth=10))
         return result.move.uci()
 
 if __name__ == "__main__":
