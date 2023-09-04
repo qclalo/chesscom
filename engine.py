@@ -3,6 +3,7 @@ import chess
 import chess.engine
 from board_to_fen.predict import get_fen_from_image_path
 from screengrab import capture_screenshot
+from showboard import display_image
 
 def detect_chessboard(image_path):
     # Implement chessboard detection using OpenCV or other computer vision techniques
@@ -37,5 +38,6 @@ if __name__ == "__main__":
     if chessboard_fen:
         best_moves = find_best_moves(chessboard_fen)
         print("Best move:", best_moves)
+        display_image(image_path)
     else:
         print("Chessboard not detected in the image.")
